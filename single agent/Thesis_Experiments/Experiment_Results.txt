@@ -1,0 +1,136 @@
+時間: 20260421_213359 | 模型: ollama/gemma4:e4b | 耗時: 156.15s | 記憶體增量: -86.49MB
+結果: ```json
+{
+  "Malicious_Feature_Detection": true,
+  "MITRE_ATTACK_TAGS": [
+    {
+      "TTP_ID": "T1059.001",
+      "TTP_Name": "PowerShell",
+      "Explanation": "攻擊者使用PowerShell執行指令，這是典型的Living Off the Land (LotL) 技術，用於執行惡意代碼。"
+    },
+    {
+      "TTP_ID": "T1027",
+      "TTP_Name": "Obfuscated Files or Information",
+      "Explanation": "使用-EncodedCommand參數傳遞Base64編碼的指令，這是典型的混淆和逃避偵測的行為，目的是繞過基於字串匹配的防禦系統。"
+    },
+    {
+      "TTP_ID": "T1070.004",
+      "TTP_Name": "File Deletion",
+      "Explanation": "雖然本次日誌未直接顯示刪除，但-w hidden和-nop的組合，常與後續的清理痕跡（如刪除日誌或執行後清理）行為相關聯，屬於隱蔽執行階段的特徵。"
+    }
+  ],
+  "Explanation": "該事件極具惡意特徵。攻擊者利用PowerShell執行環境，並結合了多個隱蔽參數：-nop (NoProfile) 避免載入使用者配置，-w hidden (WindowStyle Hidden) 確保執行過程不顯示視窗，從而達到極高的隱蔽性。最關鍵的指標是使用-EncodedCommand參數，這表明實際的惡意Payload是經過Base64編碼的，這是攻擊者常見的逃避偵測（Evasion）技術。綜合判斷，此為典型的後滲透（Post-Exploitation）或命令與控制（C2）活動。"
+}
+```
+--------------------------------------------------
+時間: 20260421_213733 | 模型: ollama/gemma4:e4b | 耗時: 110.8s | 記憶體增量: 11.25MB
+結果: ```json
+{
+  "Malicious_Feature": "使用PowerShell執行編碼指令 (EncodedCommand) 並搭配隱蔽參數",
+  "MITRE_ATTACK_TTP_ID": [
+    "T1059.001",
+    "T1027"
+  ],
+  "Explanation": "該事件顯示攻擊者利用PowerShell執行指令。關鍵惡意特徵包括：1. 使用 `-EncodedCommand` 參數，這是一種常見的混淆技術，用於將惡意載荷（Payload）進行Base64編碼，目的是繞過基於字串匹配的防禦系統。2. 搭配 `-w hidden` 和 `-nop` 參數，進一步增加了執行過程的隱蔽性，確保程序在背景運行且不載入使用者配置，是典型的後滲透（Post-Exploitation）行為，用於執行惡意程式碼或建立命令與控制（C2）通道。"
+}
+```
+--------------------------------------------------
+時間: 20260421_214036 | 模型: ollama/llama3.1 | 耗時: 26.69s | 記憶體增量: 10.89MB
+結果: ```
+{
+  "EventID": 1,
+  "MITRE_TTP_ID": "T1204",
+  "Explanation": "使用 PowerShell 的 EncodedCommand 參數執行命令，可能是用於後門或其他惡意活動"
+}
+```
+--------------------------------------------------
+時間: 20260421_214145 | 模型: ollama/llama3.1 | 耗時: 16.29s | 記憶體增量: 10.56MB
+結果: ```
+{
+  "EventID": 1,
+  "MITRE_TTP_ID": "T1055",
+  "Explanation": "使用 PowerShell 的 EncodedCommand 遞交惡意指令，可能是為了繞過防火牆或其他安全控制"
+}
+```
+--------------------------------------------------
+時間: 20260421_214332 | 模型: ollama/my-soc-agent | 耗時: 16.64s | 記憶體增量: 11.08MB
+結果: {"TTP_ID": "T1053.002", "Explanation": "攻擊者使用 PowerShell 進行 Base64 編碼的混淆指令，企圖繞逸脫"}
+--------------------------------------------------
+時間: 20260421_214430 | 模型: ollama/phi3 | 耗時: 25.19s | 記憶體增量: 11.25MB
+結果: ```json
+
+{
+
+  "Type": "Tactic",
+
+  "Id": "T1058",
+
+  "Description": "The attacker uses PowerShell to execute commands on the system.",
+
+  "Explaninr": {
+
+    "EventID": 1,
+
+    "ImagePath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+
+    "CommandLine": "-nop -w hidden -EncodedCommand JABzAD0ATgBl...",
+
+    "UserAccount": "CGA_DOMAIN\\admin"
+
+  }
+
+}
+
+```
+--------------------------------------------------
+時間: 20260421_214520 | 模型: ollama/phi3 | 耗時: 20.25s | 記憶體增量: 11.01MB
+結果: ```json
+
+{
+
+  "Type": "Tactic",
+
+  "Id": "T1058",
+
+  "Description": "The attacker uses PowerShell to execute commands on the system.",
+
+  "Explaninr": {
+
+    "EventID": 1,
+
+    "ImagePath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+
+    "CommandLine": "-nop -w hidden -EncodedCommand JABzAD0ATgBl...",
+
+    "UserAccount": "CGA_DOMAIN\\admin"
+
+  }
+
+}
+
+```
+--------------------------------------------------
+時間: 20260421_214553 | 模型: ollama/my-soc-agent | 耗時: 20.1s | 記憶體增量: 11.15MB
+結果: {"TTP_ID": "T1053.002", "Explanation": "攻擊者使用 PowerShell 進行 Base64 編碼的混淆指令，企圖繞逸脫"}
+--------------------------------------------------
+時間: 20260421_214816 | 模型: ollama/my-soc-agent | 耗時: 10.39s | 記憶體增量: 11.34MB
+結果: {"TTP_ID": "MUSCIMAL-012", "Explanation": "攻擊者使用 PowerShell 進行 Base64 編碼的混淆指令，企圖繞逸脱系統管理員"}
+--------------------------------------------------
+時間: 20260421_214839 | 模型: ollama/my-soc-agent | 耗時: 10.75s | 記憶體增量: 9.7MB
+結果: {"TTP_ID": "MUSCIMAL-012", "Explanation": "攻擊者使用 PowerShell 進行 Base64 編碼的混淆指令，企圖繞逸脱系統管理員"}
+--------------------------------------------------
+時間: 20260421_220402 | 模型: ollama/llama3.1 | 耗時: 25.5s | 記憶體增量: 11.11MB
+結果: ```
+{
+  "EventID": 1,
+  "MITRE_TTP_ID": "T1204",
+  "Explanation": "使用 PowerShell 的 EncodedCommand 參數執行命令，可能是用於後門或其他惡意活動"
+}
+```
+--------------------------------------------------
+時間: 20260421_220443 | 模型: ollama/my-soc-agent | 耗時: 16.71s | 記憶體增量: 9.76MB
+結果: {"TTP_ID": "T1053.002", "Explanation": "攻擊者使用 PowerShell 進行 Base64 編碼的混淆指令，企圖繞逸脫"}
+--------------------------------------------------
+時間: 20260421_220515 | 模型: ollama/my-soc-agent | 耗時: 10.36s | 記憶體增量: 10.25MB
+結果: {"TTP_ID": "MUSCIMAL-012", "Explanation": "攻擊者使用 PowerShell 進行 Base64 編碼的混淆指令，企圖繞逸脱系統管理員"}
+--------------------------------------------------
