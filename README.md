@@ -21,5 +21,5 @@
 ## 🛠️ 開發環境與技術棧 (Tech Stack)
 
 * **主要語言**: Python 3.10
-* **核心套件**: Ollama、Phi-3、Llama3.1、Gemma2
+* **核心套件**: Ollama、Phi-3、Llama3.1、Gemma2、MITRE STIX 2.1
 * **其他工具**: Miniconda
