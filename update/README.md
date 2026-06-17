@@ -31,22 +31,22 @@
 
 請嚴格依照以下順序執行，即可重現完整實驗流水線：
 
-Step 1: **建立多粒度向量知識庫
-將 MITRE 原始資料轉換為 ChromaDB 向量檢索庫。**
+**Step 1: 建立多粒度向量知識庫**
+將 MITRE 原始資料轉換為 ChromaDB 向量檢索庫。
    ```bash
    python build_kb.py
    
-Step 2: **啟動原子初審去噪與日誌聚合**
+**Step 2: 啟動原子初審去噪與日誌聚合**
 將單筆日誌純化，並依據時間視窗聚合為攻擊鏈。
    ```bash
    python aggregate_chains.py --input apt_hunting.jsonl --output apt_chains.jsonl --window 300
    
-Step 3: **執行消融實驗大表與多模型法庭辯論**
+**Step 3: 執行消融實驗大表與多模型法庭辯論**
 啟動主系統，依據提示選擇模式 (Mode 1 ~ Mode 4) 進行測試。
    ```bash
    python universal_soc_pipeline.py
 
-執行完畢後，系統會自動產出包含完整法庭辯論紀錄與三態統計矩陣的 ablation_mode_X_report.xlsx。
+**執行完畢後，系統會自動產出包含完整法庭辯論紀錄與三態統計矩陣的 ablation_mode_X_report.xlsx。**
 
 ## 📊 實驗模式說明
 
