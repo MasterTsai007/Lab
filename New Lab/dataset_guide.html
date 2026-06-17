@@ -1,0 +1,200 @@
+
+<h2 class="sr-only">三個資料集下載與使用完整指南，包含 OTRF、UWF-ZeekData24、EVTX-to-MITRE-Attack 的下載連結、格式說明、轉換指令，以及無標準答案 LOG 的使用方式</h2>
+
+<style>
+.ds-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.ds-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+.ds-icon { width: 36px; height: 36px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+.ds-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 2px; }
+.ds-sub { font-size: 12px; color: var(--color-text-secondary); margin: 0; }
+.badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: var(--border-radius-md); }
+.badge-blue { background: var(--color-background-info); color: var(--color-text-info); }
+.badge-green { background: var(--color-background-success); color: var(--color-text-success); }
+.badge-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+.badge-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.cmd-block { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; font-family: var(--font-mono); font-size: 12px; color: var(--color-text-primary); margin: 6px 0; line-height: 1.8; }
+.cmd-comment { color: var(--color-text-secondary); }
+.step-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin: 10px 0 4px; }
+.divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.5rem 0; }
+.hunting-card { background: var(--color-background-warning); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.hunting-title { font-size: 15px; font-weight: 500; color: var(--color-text-warning); margin: 0 0 8px; }
+.hunting-body { font-size: 13px; color: var(--color-text-warning); line-height: 1.6; margin: 0 0 10px; }
+.flow-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 13px; }
+.flow-box { background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 4px 10px; font-size: 12px; color: var(--color-text-primary); white-space: nowrap; }
+.flow-arrow { color: var(--color-text-secondary); font-size: 16px; }
+.warn-note { background: var(--color-background-danger); border-radius: var(--border-radius-md); padding: 8px 12px; font-size: 12px; color: var(--color-text-danger); margin-top: 8px; }
+.section-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 12px; }
+</style>
+
+<div style="padding: 0.5rem 0;">
+
+  <p class="section-title">三個資料集下載與使用指南</p>
+
+  <div class="ds-card">
+    <div class="ds-header">
+      <div class="ds-icon" style="background:var(--color-background-info);">
+        <i class="ti ti-shield" style="color:var(--color-text-info);" aria-hidden="true"></i>
+      </div>
+      <div>
+        <p class="ds-title">OTRF Security-Datasets</p>
+        <p class="ds-sub">Windows Sysmon + 安全事件日誌，含精確 ATT&CK 子技術標籤</p>
+      </div>
+    </div>
+    <div class="badge-row">
+      <span class="badge badge-blue">Windows EventLog</span>
+      <span class="badge badge-green">有 GT 標籤</span>
+      <span class="badge badge-gray">約 1–5 MB / 資料集</span>
+    </div>
+    <div class="step-label">下載</div>
+    <div class="cmd-block">
+      <span class="cmd-comment"># 需要先安裝 Git（git-scm.com）</span><br>
+      git clone https://github.com/OTRF/Security-Datasets.git<br>
+      pip install python-evtx
+    </div>
+    <div class="step-label">或用腳本自動下載並轉換</div>
+    <div class="cmd-block">python download_otrf.py</div>
+    <div class="step-label">手動轉換（若已 clone）</div>
+    <div class="cmd-block">
+      python "Convert datasets to jsonl.py" --source evtx<br>
+      &nbsp;&nbsp;--input .\Security-Datasets\datasets\atomic\windows<br>
+      &nbsp;&nbsp;--output otrf_hunting.jsonl
+    </div>
+    <div class="step-label">建行為鏈並跑 pipeline</div>
+    <div class="cmd-block">
+      python aggregate_chains.py --input otrf_hunting.jsonl --output chains.jsonl<br>
+      python universal_soc_pipeline.py
+    </div>
+  </div>
+
+  <div class="ds-card">
+    <div class="ds-header">
+      <div class="ds-icon" style="background:var(--color-background-success);">
+        <i class="ti ti-network" style="color:var(--color-text-success);" aria-hidden="true"></i>
+      </div>
+      <div>
+        <p class="ds-title">UWF-ZeekData24</p>
+        <p class="ds-sub">Zeek 網路流量，真實非模擬封包，含 ATT&CK 標籤</p>
+      </div>
+    </div>
+    <div class="badge-row">
+      <span class="badge badge-green">Zeek CSV</span>
+      <span class="badge badge-green">有 GT 標籤</span>
+      <span class="badge badge-amber">每個 CSV 約 200–300 MB</span>
+    </div>
+    <div class="step-label">下載（瀏覽器直接點擊）</div>
+    <div class="cmd-block">
+      瀏覽器開啟：https://datasets.uwf.edu/data/<br>
+      找到 UWF-ZeekData24 資料夾<br>
+      下載任一 part-xxxxx.csv 檔案
+    </div>
+    <div class="step-label">轉換</div>
+    <div class="cmd-block">
+      python convert_uwf.py<br>
+      &nbsp;&nbsp;--input .\part-00000-xxxxx.csv<br>
+      &nbsp;&nbsp;--output uwf_hunting.jsonl --limit 2000
+    </div>
+    <div class="step-label">建行為鏈並跑 pipeline</div>
+    <div class="cmd-block">
+      python aggregate_chains.py --input uwf_hunting.jsonl --output chains.jsonl<br>
+      python universal_soc_pipeline.py
+    </div>
+  </div>
+
+  <div class="ds-card">
+    <div class="ds-header">
+      <div class="ds-icon" style="background:#EEEDFE;">
+        <i class="ti ti-file-code" style="color:#3C3489;" aria-hidden="true"></i>
+      </div>
+      <div>
+        <p class="ds-title">EVTX-to-MITRE-Attack</p>
+        <p class="ds-sub">270+ 個 Windows EVTX 情境，資料夾名稱即 TTP ID</p>
+      </div>
+    </div>
+    <div class="badge-row">
+      <span class="badge badge-blue">Windows EVTX</span>
+      <span class="badge badge-green">有 GT 標籤</span>
+      <span class="badge badge-gray">約 200 MB</span>
+    </div>
+    <div class="step-label">下載</div>
+    <div class="cmd-block">
+      git clone https://github.com/mdecrevoisier/EVTX-to-MITRE-Attack.git<br>
+      pip install python-evtx
+    </div>
+    <div class="step-label">轉換（自動從資料夾名稱萃取 TTP）</div>
+    <div class="cmd-block">
+      python "Convert datasets to jsonl.py" --source evtx<br>
+      &nbsp;&nbsp;--input .\EVTX-to-MITRE-Attack<br>
+      &nbsp;&nbsp;--output evtx_hunting.jsonl<br><br>
+      <span class="cmd-comment"># 過濾掉無標籤筆數</span><br>
+      python -c "
+import json; lines=[l for l in open('evtx_hunting.jsonl',encoding='utf-8') if json.loads(l)['valid_ttps']!=['Unknown Threat']]; open('evtx_labeled.jsonl','w',encoding='utf-8').writelines(lines); print(len(lines),'筆')"
+    </div>
+    <div class="step-label">建行為鏈並跑 pipeline</div>
+    <div class="cmd-block">
+      python aggregate_chains.py --input evtx_labeled.jsonl --output chains.jsonl<br>
+      python universal_soc_pipeline.py
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <p class="section-title">使用真實 LOG（無標準答案）</p>
+
+  <div class="hunting-card">
+    <p class="hunting-title">Hunting Mode（實戰狩獵模式）</p>
+    <p class="hunting-body">只要 JSONL 裡的每筆資料沒有 <code style="font-family:var(--font-mono);background:rgba(0,0,0,0.08);padding:1px 5px;border-radius:4px;">valid_ttps</code> 欄位，系統就自動進入 Hunting Mode，不需要任何額外設定。</p>
+  </div>
+
+  <div class="step-label">從 Windows 事件檢視器匯出真實 LOG</div>
+  <div class="cmd-block">
+    <span class="cmd-comment"># 在 Windows 事件檢視器中：</span><br>
+    <span class="cmd-comment"># 1. 右鍵 Security / System / Application 日誌</span><br>
+    <span class="cmd-comment"># 2. 選「另存所有事件」→ 儲存為 .evtx</span><br>
+    <span class="cmd-comment"># 3. 用轉換腳本處理（不帶 valid_ttps 欄位）</span><br><br>
+    python "Convert datasets to jsonl.py" --source evtx<br>
+    &nbsp;&nbsp;--input .\my_real_logs.evtx --output real_hunting.jsonl
+  </div>
+
+  <div class="step-label">或手動建立 JSONL（適合單筆測試）</div>
+  <div class="cmd-block">
+    <span class="cmd-comment"># 每行一個 JSON，不加 valid_ttps 欄位</span><br>
+    {"id": "REAL_001", "text": "EventID=4688 Host=mypc User=alice CommandLine=powershell -enc ...", "timestamp": "2026-01-01T10:00:00Z"}<br>
+    {"id": "REAL_002", "text": "EventID=4698 Host=mypc User=alice CommandLine=schtasks /create ...", "timestamp": "2026-01-01T10:02:00Z"}
+  </div>
+
+  <div class="step-label">執行 Hunting Mode</div>
+  <div class="cmd-block">
+    <span class="cmd-comment"># 建行為鏈（系統偵測沒有 valid_ttps → 自動 Hunting Mode）</span><br>
+    python aggregate_chains.py --input real_hunting.jsonl --output real_chains.jsonl<br>
+    python universal_soc_pipeline.py
+  </div>
+
+  <div class="flow-row" style="margin-top:12px;flex-wrap:wrap;">
+    <div class="flow-box">偵測到威脅（距離&lt;1.0）</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Auto-Confirmed</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Excel 報告</div>
+  </div>
+  <div class="flow-row" style="flex-wrap:wrap;">
+    <div class="flow-box">灰區（1.0~1.5）</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">MoE 紅藍辯論</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">L3 自動裁決</div>
+  </div>
+  <div class="flow-row" style="flex-wrap:wrap;">
+    <div class="flow-box">正常流量（距離&gt;1.5）</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Auto-Dismissed</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">標記為 Green</div>
+  </div>
+
+  <div class="warn-note" style="margin-top:12px;">
+    <i class="ti ti-info-circle" style="font-size:14px;vertical-align:-2px;margin-right:4px;" aria-hidden="true"></i>
+    真實 LOG 的結果沒有 Score/F1 欄位（因為無 GT），Excel 報告改為記錄 Action_Taken、Final_TTP、L3_Judge_Reason、L3_Confidence，可直接作為論文的定性案例分析。
+  </div>
+
+</div>

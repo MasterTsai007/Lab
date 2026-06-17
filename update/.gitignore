@@ -1,0 +1,16 @@
+# 絕對不能上傳真實設定檔
+config.py
+
+# 忽略 Python 暫存檔
+__pycache__/
+*.pyc
+*.pyo
+
+# 忽略實驗產出的 Excel 報告 (避免檔案太亂)
+ablation_mode_*.xlsx
+
+# 忽略本機暫存測試檔
+temp_smoke_test.jsonl
+
+# (可選) 如果您的向量資料庫非常大，建議取消下方註解讓使用者自己 build
+# my_soc_vectordb/

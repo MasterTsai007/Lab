@@ -13,8 +13,8 @@ OLLAMA_API = "http://localhost:11434/api/generate"
 API_TIMEOUT = 120  
 
 # 【架構核心：多專家代理模型 (Mixture of Experts)】
-L1_MODEL = "phi3"                  # 第一線意圖萃取探員 (極速輕量，如安檢第一線)
-L2_PROSECUTOR = "llama3.1"         # 🔴 紅軍：激進的資安檢察官 (嚴格法官)
+L1_MODEL = "llama3.1"                  # 第一線意圖萃取探員 (極速輕量，如安檢第一線)
+L2_PROSECUTOR = "phi3"         # 🔴 紅軍：激進的資安檢察官 (嚴格法官)
 L2_DEFENDER = "gemma2:2b"          # 🔵 藍軍：務實的 IT 辯護律師
 
 INPUT_FILE = "otrf_hunting.jsonl"  # 行為鏈格式，由 aggregate_chains.py 產生
@@ -430,7 +430,8 @@ def main():
                 else:
                     if ":" in intent:
                         parts = intent.split(":", 1)
-                        q = (parts[0] + " " + parts[1]).strip() if parts[1].strip() else parts[0].strip()
+                        q = parts[0].strip()
+                        #q = (parts[0] + " " + parts[1]).strip() if parts[1].strip() else parts[0].strip()
                     else:
                         q = intent.strip()
                     if q:
