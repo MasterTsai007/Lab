@@ -15,8 +15,8 @@
 
 1. **Clone 專案：**
    ```bash
-   git clone [https://github.com/您的帳號/您的專案名稱.git](https://github.com/您的帳號/您的專案名稱.git)
-   cd 您的專案名稱
+   git clone [https://github.com/MasterTsai007/Lab.git](https://github.com/MasterTsai007/Lab.git)
+   cd Lab
    
 2. **安裝依賴套件：**
 (Windows 用戶若安裝 ChromaDB 報錯，請先安裝 Visual Studio C++ Build Tools)
