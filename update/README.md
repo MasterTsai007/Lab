@@ -16,16 +16,16 @@
 1. **Clone 專案：**
    ```bash
    git clone [https://github.com/MasterTsai007/Lab.git](https://github.com/MasterTsai007/Lab.git)
-   cd Lab
+   cd Lab```
    
 2. **安裝依賴套件：**
 (Windows 用戶若安裝 ChromaDB 報錯，請先安裝 Visual Studio C++ Build Tools)
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements.txt```
 3. **環境變數與 API 設定：**
 本專案依賴多個雲端 LLM API。請將 config.example.py 複製並重新命名為 config.py，填入您的真實 API Keys：
    ```bash
-   cp config.example.py config.py
+   cp config.example.py config.py```
    
 ## 🚀 執行流程 (Quick Start)
 
@@ -34,17 +34,17 @@
 **Step 1: 建立多粒度向量知識庫**
 將 MITRE 原始資料轉換為 ChromaDB 向量檢索庫。
    ```bash
-   python build_kb.py
+   python build_kb.py```
    
 **Step 2: 啟動原子初審去噪與日誌聚合**
 將單筆日誌純化，並依據時間視窗聚合為攻擊鏈。
    ```bash
-   python aggregate_chains.py --input apt_hunting.jsonl --output apt_chains.jsonl --window 300
+   python aggregate_chains.py --input apt_hunting.jsonl --output apt_chains.jsonl --window 300```
    
 **Step 3: 執行消融實驗大表與多模型法庭辯論**
 啟動主系統，依據提示選擇模式 (Mode 1 ~ Mode 4) 進行測試。
    ```bash
-   python universal_soc_pipeline.py
+   python universal_soc_pipeline.py```
 
 **執行完畢後，系統會自動產出包含完整法庭辯論紀錄與三態統計矩陣的 ablation_mode_X_report.xlsx。**
 
