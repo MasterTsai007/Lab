@@ -17,17 +17,17 @@
    ```bash
    git clone [https://github.com/MasterTsai007/Lab.git](https://github.com/MasterTsai007/Lab.git)
    cd Lab
-   ```
+   
 2. **安裝依賴套件：**
 (Windows 用戶若安裝 ChromaDB 報錯，請先安裝 Visual Studio C++ Build Tools)
    ```bash
    pip install -r requirements.txt
-   ```
+   
 3. **環境變數與 API 設定：**
 本專案依賴多個雲端 LLM API。請將 config.example.py 複製並重新命名為 config.py，填入您的真實 API Keys：
    ```bash
    cp config.example.py config.py
-   ```
+   
    
 ## 🚀 執行流程 (Quick Start)
 
