@@ -17,11 +17,16 @@
   * 重點在於實作多個 Agent 之間的通訊協議、任務分配、衝突解決機制與共同決策能力。
   * 主程式區塊在multi_agent_soc開頭的py檔案中，後面括號中代表使用的模型。
 * **`New Lab/`** 
-  * 最新實驗模組與暫存區 (Sandbox)。
+  * 實驗過程產生模組與暫存區 (Sandbox)。
   * 用於快速概念驗證 (PoC)、測試新的開源套件或演算法草稿。
   * 主程式區塊分成
     * 改版前：benchmark_with_judge.py
     * 改版後：universal_soc_pipeline.py 
+* **`update/`** 
+  * 最新實驗模組 (Sandbox)。
+  * 產生論文最終腳本。
+  * 主程式在universal_soc_pipeline.py 
+
 
 ## 🛠️ 開發環境與技術棧 (Tech Stack)
 
